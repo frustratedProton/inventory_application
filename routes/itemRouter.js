@@ -1,5 +1,4 @@
 import { Router } from 'express';
-// import itemController
 import {
 	getAllItems,
 	viewItem,
@@ -12,23 +11,23 @@ import {
 
 const router = Router();
 
+// Render form to create a new item
+router.get('/new', renderCreateItemForm);
+
+// Create a new item
+router.post('/', createItem);
+
 // GET all items
 router.get('/', getAllItems);
 
 // Show a specific item
 router.get('/:id', viewItem);
 
-// Create a new item
-router.post('/', createItem);
-
-// Render form to create a new item
-router.get('/new', renderCreateItemForm);
+// Render form to edit an item
+router.get('/:id/edit', renderUpdateItemForm);
 
 // Update an item
 router.put('/:id', updateItem);
-
-// Render form to edit an item
-router.get('/:id/edit', renderUpdateItemForm);
 
 // Delete an item
 router.delete('/:id', deleteItem);

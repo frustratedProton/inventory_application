@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Category Input Form</title>
+	</head>
+	<body>
+		<div class="form-container">
+			<h1>Category Input Form</h1>
+			<form action="/category" method="POST">
+				<div class="form-group">
+					<label for="name">Name:</label>
+					<input type="text" id="name" name="name" required />
+				</div>
+
+				<div class="form-group">
+					<label for="description">Description:</label>
+					<textarea
+						id="description"
+						name="description"
+						rows="4"
+						required
+					></textarea>
+				</div>
+
+				<div class="form-group">
+					<label for="type">Type:</label>
+					<select id="type" name="type" required>
+						<option value="" disabled selected>
+							Select a type
+						</option>
+						<option value="Type1">Type1</option>
+						<option value="Type2">Type2</option>
+						<option value="Type3">Type3</option>
+					</select>
+				</div>
+
+				<div class="form-group">
+					<button type="submit">Submit</button>
+				</div>
+			</form>
+		</div>
+	</body>
+</html>

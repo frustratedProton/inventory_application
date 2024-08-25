@@ -13,6 +13,7 @@ export const createItem = (req, res) => {
 };
 
 export const renderCreateItemForm = (req, res) => {
+	res.render('newItem'); 
 	console.log('Rendering form to create new item... WIP');
 };
 

@@ -13,6 +13,7 @@ export const createCategory = (req, res) => {
 };
 
 export const renderCreateCategoryForm = (req, res) => {
+	res.render('newCategory');
 	console.log('Rendering form to create category');
 };
 

@@ -3,6 +3,7 @@ import path from 'path';
 import { fileURLToPath } from 'url';
 import categoryRoutes from './routes/categoryRoutes.js';
 import itemRoutes from './routes/itemRouter.js';
+import indexRouter from './routes/indexRoute.js';
 
 const app = express();
 const __filename = fileURLToPath(import.meta.url);
@@ -24,9 +25,11 @@ app.use('/categories', categoryRoutes);
 app.use('/items', itemRoutes);
 
 // Home route
-app.get('/', (req, res) => {
-	res.redirect('/categories');
-});
+// app.get('/', (req, res) => {
+// 	res.redirect('/categories');
+// });
+
+app.use('/', indexRouter);
 
 // Error handling middleware
 app.use((err, req, res, next) => {
