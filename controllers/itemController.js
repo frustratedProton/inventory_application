@@ -1,9 +1,62 @@
-export const getAllItems = (req, res) => {
+const items = [
+	{
+		id: 1,
+		category_id: 1,
+		name: 'HG Gundam Exia',
+		description: 'A detailed High Grade model of the Gundam Exia.',
+		quantity: 5,
+		created_at: new Date('2024-08-27T12:00:00Z'),
+		updated_at: new Date('2024-08-27T12:00:00Z'),
+	},
+	{
+		id: 2,
+		category_id: 1,
+		name: 'HG RX-78-2 Gundam',
+		description: 'The iconic High Grade RX-78-2 Gundam model.',
+		quantity: 10,
+		created_at: new Date('2024-08-27T12:00:00Z'),
+		updated_at: new Date('2024-08-27T12:00:00Z'),
+	},
+	{
+		id: 3,
+		category_id: 2,
+		name: 'RG Zaku II',
+		description: 'Real Grade Zaku II with detailed parts and articulation.',
+		quantity: 8,
+		created_at: new Date('2024-08-27T12:00:00Z'),
+		updated_at: new Date('2024-08-27T12:00:00Z'),
+	},
+	{
+		id: 4,
+		category_id: 3,
+		name: 'Gunpla Cutter',
+		description: 'Precision cutter for Gunpla model kits.',
+		quantity: 15,
+		created_at: new Date('2024-08-27T12:00:00Z'),
+		updated_at: new Date('2024-08-27T12:00:00Z'),
+	},
+];
+
+export const getAllItems = async (req, res) => {
+	const categoryResponse = await fetch('http://localhost:3000/categories');
+	const categories = await categoryResponse.json();
+	
+	res.render('items', { items, categories }); 
+
+	console.log(categories);
 	console.log('Fetching list of categories... WIP');
 };
 
 export const viewItem = (req, res) => {
 	const { id } = req.params;
+	const item = items.find((item) => item.id === parseInt(id));
+
+	if (item) {
+		res.render('item', { item });
+	} else {
+		res.status(404).send('Item not found');
+	}
+
 	console.log(`Fetching details of item ${id}... WIP`);
 };
 
@@ -13,7 +66,7 @@ export const createItem = (req, res) => {
 };
 
 export const renderCreateItemForm = (req, res) => {
-	res.render('newItem'); 
+	res.render('newItem');
 	console.log('Rendering form to create new item... WIP');
 };
 
