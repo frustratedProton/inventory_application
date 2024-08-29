@@ -1,5 +1,5 @@
-import { items } from "./itemController.js";
-const categories = [
+import { items } from './itemController.js';
+export let categories = [
 	{
 		id: 1,
 		name: 'High Grade',
@@ -53,7 +53,29 @@ export const getCategory = (req, res) => {
 
 export const createCategory = (req, res) => {
 	const { name, description, type } = req.body;
+
+	if (!name || !description || !type) {
+		return res.status(400).send('Missing required fields');
+	}
+
+	const nextId =
+		categories.length > 0
+			? Math.max(...categories.map((cat) => cat.id)) + 1
+			: 1;
+
+	const newCategory = {
+		id: nextId,
+		name,
+		description,
+		type,
+		created_at: new Date().toISOString(),
+		updated_at: new Date().toISOString(),
+	};
+
+	categories = [...categories, newCategory];
+
 	console.log(`Creating category: ${name}, ${description}, ${type}... WIP`);
+	res.status(201).json(newCategory);
 };
 
 export const renderCreateCategoryForm = (req, res) => {

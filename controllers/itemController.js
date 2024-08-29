@@ -1,4 +1,7 @@
-export const items = [
+import { name } from 'ejs';
+import { categories } from './categoryController.js';
+
+export let items = [
 	{
 		id: 1,
 		category_id: 1,
@@ -38,13 +41,7 @@ export const items = [
 ];
 
 export const getAllItems = async (req, res) => {
-	// const categoryResponse = await fetch('http://localhost:3000/categories');
-	// const categories = await categoryResponse.json();
-	
-	// res.render('items', { items, categories });
-	res.render('items', { items: items }); 
-
-	// console.log(categories);
+	res.render('items', { items: items });
 	console.log('Fetching list of categories... WIP');
 };
 
@@ -62,12 +59,36 @@ export const viewItem = (req, res) => {
 };
 
 export const createItem = (req, res) => {
-	const { name, description, type } = req.body;
-	console.log(`Creating item: ${name}, ${description}, ${type}... WIP`);
+	// console.log(req.body);
+	const { name, description, quantity, category_id } = req.body;
+
+	if (!name || !description || !quantity || !category_id) {
+		return res.status(400).send('Missing required fields');
+	}
+
+	const nextId =
+		items.length > 0 ? Math.max(...items.map((item) => item.id)) + 1 : 1;
+
+	// Create the new item
+	const newItem = {
+		id: nextId,
+		category_id: parseInt(category_id),
+		name: name,
+		description: description,
+		quantity: quantity,
+		created_at: new Date().toISOString(),
+		updated_at: new Date().toISOString(),
+	};
+
+	items = [...items, newItem];
+	console.log(
+		`Creating item: ${name}, ${description}, ${quantity}. ${category_id}... WIP`
+	);
+	res.status(201).json(newItem);
 };
 
 export const renderCreateItemForm = (req, res) => {
-	res.render('newItem');
+	res.render('newItem', { categories });
 	console.log('Rendering form to create new item... WIP');
 };
 
