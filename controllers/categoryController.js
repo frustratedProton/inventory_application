@@ -1,3 +1,4 @@
+import { items } from "./itemController.js";
 const categories = [
 	{
 		id: 1,
@@ -30,7 +31,8 @@ const categories = [
 
 export const getAllCategories = (req, res) => {
 	console.log('Fetching list of categories... WIP');
-	res.json(categories);
+	// res.json(categories);
+	res.render('categories', { categories: categories });
 };
 
 export const getCategory = (req, res) => {

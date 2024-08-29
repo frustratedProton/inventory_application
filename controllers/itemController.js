@@ -1,4 +1,4 @@
-const items = [
+export const items = [
 	{
 		id: 1,
 		category_id: 1,
@@ -38,12 +38,13 @@ const items = [
 ];
 
 export const getAllItems = async (req, res) => {
-	const categoryResponse = await fetch('http://localhost:3000/categories');
-	const categories = await categoryResponse.json();
+	// const categoryResponse = await fetch('http://localhost:3000/categories');
+	// const categories = await categoryResponse.json();
 	
-	res.render('items', { items, categories }); 
+	// res.render('items', { items, categories });
+	res.render('items', { items: items }); 
 
-	console.log(categories);
+	// console.log(categories);
 	console.log('Fetching list of categories... WIP');
 };
 

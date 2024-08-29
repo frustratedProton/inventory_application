@@ -1,26 +1,63 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 	<head>
-		<meta charset="UTF-8" />
-		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-		<title>Item Details</title>
+		<title><%= item.name %> - Details</title>
+		<style>
+			body {
+				font-family: Arial, sans-serif;
+				margin: 0;
+				display: flex;
+			}
+			.main-content {
+				flex: 1;
+				padding: 20px;
+			}
+			.header {
+				margin-bottom: 20px;
+				text-align: center;
+			}
+			.card {
+				background: #fff;
+				border-radius: 8px;
+				box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+				padding: 20px;
+				box-sizing: border-box;
+				max-width: 600px;
+				margin: 0 auto;
+			}
+			.card h1 {
+				margin-top: 0;
+				font-size: 2em;
+				color: #333;
+			}
+			.card p {
+				margin: 10px 0;
+				color: #666;
+			}
+			.card .date {
+				font-size: 0.9em;
+				color: #999;
+			}
+		</style>
 	</head>
 	<body>
-		<h1>Item Details</h1>
-		<div>
-			<h2><%= item.name %></h2>
-			<p><strong>Description:</strong> <%= item.description %></p>
-			<p><strong>Quantity:</strong> <%= item.quantity %></p>
-			<p><strong>Category ID:</strong> <%= item.category_id %></p>
-			<p>
-				<strong>Created At:</strong> <%= item.created_at.toISOString()
-				%>
-			</p>
-			<p>
-				<strong>Updated At:</strong> <%= item.updated_at.toISOString()
-				%>
-			</p>
+		<%- include('partials/sidebar') %>
+		<div class="main-content">
+			<div class="card">
+				<h1><%= item.name %></h1>
+				<p><strong>Description:</strong> <%= item.description %></p>
+				<p><strong>Quantity:</strong> <%= item.quantity %></p>
+				<p class="date">
+					<strong>Created:</strong> <%=
+					item.created_at.toISOString().slice(0, 19).replace('T', ' ')
+					%>
+				</p>
+				<p class="date">
+					<strong>Updated:</strong> <%=
+					item.updated_at.toISOString().slice(0, 19).replace('T', ' ')
+					%>
+				</p>
+			</div>
 		</div>
-		<a href="/items">Back to Items List</a>
 	</body>
 </html>
