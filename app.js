@@ -17,6 +17,7 @@ app.use(express.urlencoded({ extended: true }));
 // Set view engine to EJS
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
+app.use(express.static('public'));
 
 
 // Routes

@@ -2,118 +2,12 @@
 <html>
     <head>
         <title><%= item.name %> - Update</title>
-        <style>
-            body {
-                font-family: Arial, sans-serif;
-                margin: 0;
-                display: flex;
-            }
-            .main-content {
-                flex: 1;
-                padding: 20px;
-            }
-            .header {
-                margin-bottom: 20px;
-                text-align: center;
-            }
-            .card {
-                background: #fff;
-                border-radius: 8px;
-                box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-                padding: 20px;
-                box-sizing: border-box;
-                max-width: 600px;
-                margin: 0 auto;
-            }
-            .card h1 {
-                margin-top: 0;
-                font-size: 2em;
-                color: #333;
-            }
-            .card p {
-                margin: 10px 0;
-                color: #666;
-            }
-            .card .date {
-                font-size: 0.9em;
-                color: #999;
-            }
-            .card .actions {
-                margin-top: 20px;
-                text-align: center;
-            }
-            .card .actions a {
-                display: inline-block;
-                padding: 10px 20px;
-                font-size: 1em;
-                color: #fff;
-                border-radius: 5px;
-                text-decoration: none;
-                margin: 0 10px;
-            }
-            .card .actions .edit {
-                background-color: #007bff;
-            }
-            .card .actions .edit:hover {
-                background-color: #0056b3;
-            }
-            .card .actions .delete {
-                background-color: #dc3545;
-            }
-            .card .actions .delete:hover {
-                background-color: #c82333;
-            }
-            /* Form styles */
-            .form-group {
-                margin-bottom: 15px;
-            }
-            .form-group label {
-                display: block;
-                margin-bottom: 5px;
-                font-weight: bold;
-            }
-            .form-group input,
-            .form-group textarea {
-                width: 100%;
-                padding: 8px;
-                border: 1px solid #ccc;
-                border-radius: 5px;
-            }
-            .form-group textarea {
-                resize: vertical;
-                height: 100px;
-            }
-            .form-actions {
-                text-align: center;
-            }
-            .form-actions button {
-                padding: 10px 20px;
-                font-size: 1em;
-                border: none;
-                border-radius: 5px;
-                cursor: pointer;
-                margin: 0 5px;
-            }
-            .form-actions .submit {
-                background-color: #007bff;
-                color: #fff;
-            }
-            .form-actions .submit:hover {
-                background-color: #0056b3;
-            }
-            .form-actions .cancel {
-                background-color: #6c757d;
-                color: #fff;
-            }
-            .form-actions .cancel:hover {
-                background-color: #5a6268;
-            }
-        </style>
+        <link rel="stylesheet" href="/styles.css" />
     </head>
     <body>
         <%- include('partials/sidebar') %>
-        <div class="main-content">
-            <div class="card">
+        <div class="updateItem-main-content">
+            <div class="updateItem-card">
                 <h1>Update Item: <%= item.name %></h1>
                 <form action="/items/<%= item.id %>/edit" method="post">
                     <div class="form-group">
@@ -129,8 +23,9 @@
                     <div class="form-group">
                         <label for="description">Description</label>
                         <textarea id="description" name="description" required>
-                            <%= item.description.trim().replace(/</g, '&lt;').replace(/>/g, '&gt;') %>
-                        </textarea>
+                    <%= item.description.trim().replace(/</g, '&lt;').replace(/>/g, '&gt;') %>
+                </textarea
+                        >
                     </div>
                     <div class="form-group">
                         <label for="quantity">Quantity</label>

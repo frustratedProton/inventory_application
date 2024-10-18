@@ -9,18 +9,15 @@ export const viewItem = async (req, res) => {
     const { id } = req.params;
     const items = await db.getItemById(id);
     const item = items[0];
-    console.log(item)
     if (item) {
         res.render('item', { item: item });
     } else {
         res.status(404).send('Item not found');
     }
 
-    console.log(`Fetching details of item ${id}... WIP`);
 };
 
 export const createItem = async (req, res) => {
-    console.log(req.body);
     const { name, description, quantity, category_id } = req.body;
 
     if (!name || !description || !quantity || !category_id) {
@@ -29,7 +26,7 @@ export const createItem = async (req, res) => {
 
     try {
         await db.createItem(name, description, quantity, category_id);
-        res.status(201).send('Item created successfully');
+        res.redirect(`/items`);
     } catch (error) {
         console.error(error);
         res.status(500).send('Error creating item');
@@ -38,9 +35,7 @@ export const createItem = async (req, res) => {
 
 export const renderCreateItemForm = async (req, res) => {
     const categories = await db.getAllCategories();
-    console.log(categories)
     res.render('newItem', { categories });
-    console.log('Rendering form to create new item... WIP');
 };
 
 export const updateItem = async (req, res) => {
@@ -67,18 +62,14 @@ export const updateItem = async (req, res) => {
 
 export const renderUpdateItemForm = async (req, res) => {
     const { id } = req.params;
-    console.log(id);
     try {
         const displayItem = await db.getItemById(id);
         const item = displayItem[0];
-        console.log(displayItem);
-
         if (!item) {
             return res.status(404).send('Item not found');
         }
 
         res.render('updateItem', { item });
-        console.log(`Rendering form to update item ${id}`);
     } catch (error) {
         console.error(error);
         res.status(500).send('Error retrieving item');
@@ -95,7 +86,6 @@ export const deleteItem = async (req, res) => {
             return res.status(404).send('Item not found');
         }
 
-        console.log(`Deleted item ${id}`);
         res.redirect('/items');
     } catch (error) {
         console.error(error);
