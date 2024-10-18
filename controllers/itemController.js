@@ -1,112 +1,104 @@
-import { name } from 'ejs';
-import { categories } from './categoryController.js';
-
-export let items = [
-	{
-		id: 1,
-		category_id: 1,
-		name: 'HG Gundam Exia',
-		description: 'A detailed High Grade model of the Gundam Exia.',
-		quantity: 5,
-		created_at: new Date('2024-08-27T12:00:00Z'),
-		updated_at: new Date('2024-08-27T12:00:00Z'),
-	},
-	{
-		id: 2,
-		category_id: 1,
-		name: 'HG RX-78-2 Gundam',
-		description: 'The iconic High Grade RX-78-2 Gundam model.',
-		quantity: 10,
-		created_at: new Date('2024-08-27T12:00:00Z'),
-		updated_at: new Date('2024-08-27T12:00:00Z'),
-	},
-	{
-		id: 3,
-		category_id: 2,
-		name: 'RG Zaku II',
-		description: 'Real Grade Zaku II with detailed parts and articulation.',
-		quantity: 8,
-		created_at: new Date('2024-08-27T12:00:00Z'),
-		updated_at: new Date('2024-08-27T12:00:00Z'),
-	},
-	{
-		id: 4,
-		category_id: 3,
-		name: 'Gunpla Cutter',
-		description: 'Precision cutter for Gunpla model kits.',
-		quantity: 15,
-		created_at: new Date('2024-08-27T12:00:00Z'),
-		updated_at: new Date('2024-08-27T12:00:00Z'),
-	},
-];
+import * as db from '../db/queries.js';
 
 export const getAllItems = async (req, res) => {
-	res.render('items', { items: items });
-	console.log('Fetching list of categories... WIP');
+    const items = await db.getAllItems();
+    res.render('items', { items: items });
 };
 
-export const viewItem = (req, res) => {
-	const { id } = req.params;
-	const item = items.find((item) => item.id === parseInt(id));
+export const viewItem = async (req, res) => {
+    const { id } = req.params;
+    const items = await db.getItemById(id);
+    const item = items[0];
+    console.log(item)
+    if (item) {
+        res.render('item', { item: item });
+    } else {
+        res.status(404).send('Item not found');
+    }
 
-	if (item) {
-		res.render('item', { item });
-	} else {
-		res.status(404).send('Item not found');
-	}
-
-	console.log(`Fetching details of item ${id}... WIP`);
+    console.log(`Fetching details of item ${id}... WIP`);
 };
 
-export const createItem = (req, res) => {
-	// console.log(req.body);
-	const { name, description, quantity, category_id } = req.body;
+export const createItem = async (req, res) => {
+    console.log(req.body);
+    const { name, description, quantity, category_id } = req.body;
 
-	if (!name || !description || !quantity || !category_id) {
-		return res.status(400).send('Missing required fields');
-	}
+    if (!name || !description || !quantity || !category_id) {
+        return res.status(400).send('Missing required fields');
+    }
 
-	const nextId =
-		items.length > 0 ? Math.max(...items.map((item) => item.id)) + 1 : 1;
-
-	// Create the new item
-	const newItem = {
-		id: nextId,
-		category_id: parseInt(category_id),
-		name: name,
-		description: description,
-		quantity: quantity,
-		created_at: new Date().toISOString(),
-		updated_at: new Date().toISOString(),
-	};
-
-	items = [...items, newItem];
-	console.log(
-		`Creating item: ${name}, ${description}, ${quantity}. ${category_id}... WIP`
-	);
-	res.status(201).json(newItem);
+    try {
+        await db.createItem(name, description, quantity, category_id);
+        res.status(201).send('Item created successfully');
+    } catch (error) {
+        console.error(error);
+        res.status(500).send('Error creating item');
+    }
 };
 
-export const renderCreateItemForm = (req, res) => {
-	res.render('newItem', { categories });
-	console.log('Rendering form to create new item... WIP');
+export const renderCreateItemForm = async (req, res) => {
+    const categories = await db.getAllCategories();
+    console.log(categories)
+    res.render('newItem', { categories });
+    console.log('Rendering form to create new item... WIP');
 };
 
-export const updateItem = (req, res) => {
-	const { id } = req.params;
-	const { name, description, quantity, category_id } = req.body;
+export const updateItem = async (req, res) => {
+    const { id } = req.params;
+    const { name, description, quantity, category_id } = req.body;
 
-	console.log(
-		`Updating item ${id} with ${name}, ${description}, ${quantity}, ${category_id}... WIP`
-	);
+    if (!name || !description || !quantity || !category_id) {
+        return res.status(400).send('Missing required fields');
+    }
+
+    try {
+        const updatedItem = await db.updateItemInDb(id, name, description, quantity, category_id);
+
+        if (!updatedItem) {
+            return res.status(404).send('Item not found');
+        }
+
+        res.redirect(`/items/${id}`);
+    } catch (error) {
+        console.error(error);
+        res.status(500).send('Error updating item');
+    }
 };
 
-export const renderUpdateItemForm = (req, res) => {
-	const { id } = req.params;
-	console.log(`Rendering form to update item ${id}... WIP`);
+export const renderUpdateItemForm = async (req, res) => {
+    const { id } = req.params;
+    console.log(id);
+    try {
+        const displayItem = await db.getItemById(id);
+        const item = displayItem[0];
+        console.log(displayItem);
+
+        if (!item) {
+            return res.status(404).send('Item not found');
+        }
+
+        res.render('updateItem', { item });
+        console.log(`Rendering form to update item ${id}`);
+    } catch (error) {
+        console.error(error);
+        res.status(500).send('Error retrieving item');
+    }
 };
 
-export const deleteItem = (req, res) => {
-	const { id } = req.params;
-	console.log(`Deleting item ${id}... WIP`);
+export const deleteItem = async (req, res) => {
+    const { id } = req.params;
+
+    try {
+        const deletedItem = await db.deleteItemById(id);
+
+        if (!deletedItem) {
+            return res.status(404).send('Item not found');
+        }
+
+        console.log(`Deleted item ${id}`);
+        res.redirect('/items');
+    } catch (error) {
+        console.error(error);
+        res.status(500).send('Error deleting item');
+    }
 };

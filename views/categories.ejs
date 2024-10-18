@@ -46,12 +46,33 @@
 				font-size: 0.9em;
 				color: #999;
 			}
+			.add-category-link {
+				display: block;
+				margin-bottom: 20px;
+				text-align: center;
+			}
+			.add-category-link a {
+				display: inline-block;
+				padding: 10px 20px;
+				font-size: 1em;
+				color: #fff;
+				background-color: #007bff;
+				border-radius: 5px;
+				text-decoration: none;
+				transition: background-color 0.3s ease;
+			}
+			.add-category-link a:hover {
+				background-color: #0056b3;
+			}
 		</style>
 	</head>
 	<body>
 		<%- include('partials/sidebar') %>
 		<div class="main-content">
 			<h1>Categories</h1>
+			<div class="add-category-link">
+				<a href="/categories/new">Add Category</a>
+			</div>
 			<div class="container">
 				<% categories.forEach(category => { %>
 				<a href="/categories/<%= category.id %>" class="card">

@@ -27,9 +27,9 @@ router.get('/:id', getCategory);
 router.get('/:id/edit', renderUpdateCategoryForm);
 
 // Update a category
-router.put('/:id', updateCategory);
+router.post('/:id', updateCategory);
 
 // Delete a category
-router.delete('/:id', deleteCategory);
+router.post('/:id/delete', deleteCategory);
 
 export default router;

@@ -1,15 +1,18 @@
 import { Router } from 'express';
 import {
-	getAllItems,
-	viewItem,
-	renderCreateItemForm,
-	createItem,
-	renderUpdateItemForm,
-	updateItem,
-	deleteItem,
+    getAllItems,
+    viewItem,
+    renderCreateItemForm,
+    createItem,
+    renderUpdateItemForm,
+    updateItem,
+    deleteItem,
 } from '../controllers/itemController.js';
 
 const router = Router();
+
+// Delete an item
+router.post('/:id/delete', deleteItem);
 
 // Render form to create a new item
 router.get('/new', renderCreateItemForm);
@@ -27,9 +30,6 @@ router.get('/:id', viewItem);
 router.get('/:id/edit', renderUpdateItemForm);
 
 // Update an item
-router.put('/:id', updateItem);
-
-// Delete an item
-router.delete('/:id', deleteItem);
+router.post('/:id/edit', updateItem);
 
 export default router;

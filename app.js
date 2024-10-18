@@ -4,12 +4,13 @@ import { fileURLToPath } from 'url';
 import categoryRoutes from './routes/categoryRoutes.js';
 import itemRoutes from './routes/itemRouter.js';
 import indexRouter from './routes/indexRoute.js';
+import dotenv from 'dotenv';
+dotenv.config();
 
 const app = express();
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-// Middleware to parse JSON and URL-encoded form data
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
@@ -17,17 +18,10 @@ app.use(express.urlencoded({ extended: true }));
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
 
-// Serve static files
-app.use(express.static(path.join(__dirname, 'public')));
 
 // Routes
 app.use('/categories', categoryRoutes);
 app.use('/items', itemRoutes);
-
-// Home route
-// app.get('/', (req, res) => {
-// 	res.redirect('/categories');
-// });
 
 app.use('/', indexRouter);
 
