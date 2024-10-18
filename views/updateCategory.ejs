@@ -9,6 +9,7 @@
     <div class="updateCategory-main-content">
         <div class="updateCategory-card">
             <h1>Update Category: <%= category.name %></h1>
+            <%- include("partials/errors.ejs") %>
             <form action="/categories/<%= category.id %>" method="post">
                 <div class="form-group">
                     <label for="name">Name</label>

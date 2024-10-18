@@ -9,6 +9,7 @@
         <div class="updateItem-main-content">
             <div class="updateItem-card">
                 <h1>Update Item: <%= item.name %></h1>
+                <%- include("partials/errors.ejs") %>
                 <form action="/items/<%= item.id %>/edit" method="post">
                     <div class="form-group">
                         <label for="name">Name</label>

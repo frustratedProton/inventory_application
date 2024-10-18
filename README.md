@@ -7,6 +7,7 @@ A simple web application created for learning purposes, focusing on managing Gun
 - **Category Management**: Add, edit, and delete categories.
 - **Item Management**: Add, edit, and view individual items within categories.
 - **Dynamic Views**: Render views for categories and items using EJS templates.
+- **Input Validation**: Utilize express-validator to ensure that user inputs are correctly formatted and validated before being processed.
 
 ## Installation
 

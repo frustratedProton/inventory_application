@@ -2,7 +2,6 @@ import pool from './pool.js';
 
 export const getAllItems = async () => {
     const { rows } = await pool.query('SELECT * FROM items');
-    console.log(rows);
     return rows;
 };
 
